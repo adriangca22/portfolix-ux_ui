@@ -1,0 +1,157 @@
+/* Estilos generales del contenedor */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding-top: 72px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Distribuir los ítems en tres columnas */
+    grid-auto-rows: minmax(100px, auto); /* Ajustar la altura mínima de las filas */
+    gap: 20px; /* Espacio uniforme entre las tarjetas */
+    border-top: 1px solid var(--white, #FFF);
+    margin: 0 auto 180px;
+    position: relative;
+    box-sizing: border-box;
+       font-family: var(--font);
+}
+
+/* Ajuste para las tarjetas de la fila del medio */
+.icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #05050500; /* Fondo oscuro para contraste */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 1rem;
+    box-shadow: 8px  9px 12px rgb(15, 15, 15); /* Sombra más pronunciada */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: float 3s ease-in-out infinite; /* Animación de flotación */
+    text-align: center; /* Centra el texto dentro del contenedor */
+    color: #FFF;
+    font-family: var(--font);
+    cursor: pointer;
+}
+
+/* Estilos para los íconos */
+.icon {
+    width: 120px; /* Ajusta el tamaño del ícono */
+    height: 120px; /* Ajusta el tamaño del ícono */
+    object-fit: cover; /* Ajusta el ícono para que cubra el contenedor */
+    border-radius: 50%; /* Bordes redondeados para los íconos */
+    transition: transform 0.3s ease;
+}
+
+/* Animación de flotación */
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Efecto hover */
+.icon-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(131, 131, 131, 0.76);
+}
+
+/* Estilos para los textos */
+.skill-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.skill-text strong {
+    color: white; /* Color de letra blanco */
+    font-family: 'Roboto', sans-serif; /* Fuente más moderna */
+    font-size: 2rem; /* Tamaño de fuente ajustado */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.skill-text em {
+    color: white; /* Color de letra blanco */
+    font-family: 'Roboto', sans-serif; /* Fuente simple y clara */
+    font-size: 1rem; /* Tamaño de fuente ajustado */
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Media queries para ajustar en diferentes tamaños de pantalla */
+@media(max-width: 1200px) {
+    .container {
+        width: 90%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media(max-width: 1000px) {
+    .skill-text strong {
+        font-size: 1.75rem;
+    }
+}
+
+@media(max-width: 800px) {
+    .container {
+        padding-top: 52px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px; /* Ajuste en el espaciado */
+        margin: 0 auto 100px;
+    }
+
+    .skill-text strong {
+        font-size: 2rem;
+    }
+
+    .rings {
+        bottom: -65px;
+        right: -371px;
+    }
+}
+
+@media(max-width: 600px) {
+    .container {
+        row-gap: 24px;
+        padding: 40px 0;
+        grid-template-columns: 1fr;
+        border-bottom: 1px solid white;
+        margin: 0 auto 80px;
+    }
+
+    .icon-wrapper {
+        width: 100%; /* Ajustar el ancho al 100% del contenedor padre */
+        max-width: 200px; /* Limitar el tamaño máximo del contenedor del ícono */
+        height: auto; /* Ajustar la altura automáticamente */
+        padding: 1rem;
+        margin: 0 auto;
+    }
+
+    .skill-text {
+        align-items: center;
+        gap: 4px;
+    }
+
+    .skill-text strong {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+    }
+
+    .skill-text em {
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .rings {
+        right: -360px;
+    }   
+}
