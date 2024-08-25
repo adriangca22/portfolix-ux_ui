@@ -1,46 +1,51 @@
-const path = require('path');               //path is now a module that has access to pre defined methods that are built into Node.js
-const HtmlWebpackPlugin = require("html-webpack-plugin"); //to use a plugin with webpack, you must use require
-const CopyWebpackPlugin = require('copy-webpack-plugin');    //npm install copy-webpack-plugin -D         you will NEED this if you are planning on having a /public folder
+const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-
-    entry: './src/index.js',                  //this is where webpack will start its dependency graph, and will automatically figure out with modules depend on this entry point                  
-    output: {                                  //output is where our production code will be sent to               
-        path: path.join(__dirname, '/dist'),  //__dirname represents the current directory, /dist is the folder that will contain our production code
-        filename: 'bundle.js'                 //the bundled js file
+    entry: './src/index.js', // Entry point for the app
+    output: {
+        path: path.join(__dirname, '/dist'), // Output directory for production build
+        filename: 'bundle.js', // Bundled JS file
+        publicPath: '/' // Ensures that all paths are relative to the root
     },
-    plugins: [                      
-        new HtmlWebpackPlugin({               //this plugin will help us generate the production html file in our /dist
-            filename: 'index.html',           //our production html file will be named index.html
-            favicon: './public/icons/favicon-32x32.png',     //loading a favicon in our html template
-            template: './src/index.html'      //this is a template for our production html file, we are defining how the html will look like before we make our production html file
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html', // Production HTML file name
+            favicon: './public/icons/favicon-32x32.png', // Favicon path
+            template: './src/index.html' // HTML template for production
         }),
         new CopyWebpackPlugin({
-            patterns: [{ from: 'public', to: '' }],        //this will copy all the files from the public folder to the build directory
-          }),
+            patterns: [{ from: 'public', to: '' }], // Copy all files from public folder to build directory
+        }),
     ],
-    devServer: {                              //configuration property for the development server
-        port: 3000,                           //the devServer will start in port 3000
-        historyApiFallback: true,             //this property helps with routing in our react app, everytime we refresh the page, react router will send a request to a server, but this property will make sure it searches for an index file first
+    devServer: {
+        port: 3000, // Port for the dev server
+        historyApiFallback: true, // Ensures that routing works correctly with React Router
+        static: path.resolve(__dirname, 'dist'), // Serve static files from the dist directory
+        open: true, // Automatically open the browser
     },
-    
     module: {
-        rules: [                               
-            {                                   //loaders are transformations that are applied to files (typescript to javascript, sass to css)
-                test: /\.js$/, 
+        rules: [
+            {
+                test: /\.js$/, // Apply babel-loader to .js files
                 use: {
-                    loader: 'babel-loader',  //for all .js files, we will load the babel transpiler
-                    options: {presets: ['@babel/preset-env', '@babel/preset-react']} //preset-env is a group of babel plugins that will transpile all the new features of javascript 
-                    }                                                                 //preset-react is also a group of babel plugins, but it will transpile jsx with other new features of javascript
+                    loader: 'babel-loader',
+                    options: { presets: ['@babel/preset-env', '@babel/preset-react'] } // Transpile modern JS and JSX
+                }
             },
             {
-                test: /\.css$/,
-                use: [{loader: 'style-loader'}, {loader: 'css-loader'}]             //using style loader and css loader to load css onto application
+                test: /\.css$/, // Apply style-loader and css-loader to CSS files
+                use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.(png|jpg|webp|mp4|wav|svg)$/,
-                type: 'asset/resource'                                              //asset/resource loads files such as images, audio and videos
-            },                                                                     
+                test: /\.(png|jpg|webp|mp4|wav|svg)$/, // Handle images, audio, video files
+                type: 'asset/resource'
+            },
         ]
     },
-}
+    resolve: {
+        extensions: ['.js', '.jsx'], // Allow importing JS and JSX files without specifying extensions
+    },
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development', // Set mode based on the environment
+};
